@@ -10,5 +10,5 @@ builder.Services.AddHttpClient("MiniProjectShelter.ServerAPI", client => client.
 
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("MiniProjectShelter.ServerAPI"));
-
+hej med dig
 await builder.Build().RunAsync();
