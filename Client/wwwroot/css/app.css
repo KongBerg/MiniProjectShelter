@@ -30,3 +30,20 @@ h1:focus {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.table {
+    background: yellow; /* Change this to your desired table background color */
+    color: black; /* Set text color to white or another suitable color */
+    width: 100%; /* Make the table take up the full width of its container */
+    border-collapse: collapse; /* Remove cell spacing and borders */
+}
+
+    .table th, .table td {
+        padding: 8px; /* Add padding to table cells for better readability */
+        border: 1px solid white; /* Add cell borders */
+    }
+
+    .table th {
+        background: #333; /* Set the background color for table header cells */
+    }

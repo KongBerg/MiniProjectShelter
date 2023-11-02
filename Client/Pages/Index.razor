@@ -1,2 +1,59 @@
 ﻿@page "/"
+@using Booking
+@using MongoDB.Driver
+@using System.Threading.Tasks
 
+<PageTitle>Booking Af Shelter</PageTitle>
+
+<h1>Velkommen, Opret Din Booking Nu</h1>
+
+<p>Her Kan Du Opret En Booking På En Eller Flere Shelter Rundt Omrking Aarhus Kommune.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Antal Personer</th>
+            <th>Faciliteter</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shelter in Shelters)
+        {
+            <tr>
+                <td>@shelter.Properties.Navn</td>
+                <td>@shelter.Properties.AntalPersoner</td>
+                <td>@shelter.Properties.Faciliteter</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private string ConnectionString = "mongodb+srv://Berg:Ept89vxtN@cluster0.77eu8xj.mongodb.net/";
+
+    IMongoClient dbClient;
+    IMongoDatabase database;
+    IMongoCollection<Shelter> collection;
+    private List<Shelter> Shelters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            dbClient = new MongoClient(ConnectionString);
+            database = dbClient.GetDatabase("ShelterDB");
+            collection = database.GetCollection<Shelter>("shelter_minus");
+
+            Shelters = await collection.Find(_ => true).ToListAsync();
+
+            Console.WriteLine($"Retrieved {Shelters.Count} shelters from the database.");
+        }
+        catch (Exception ex)
+        {
+            Shelters = new List<Shelter>();
+            Console.WriteLine("An error occurred: " + ex.GetType() + " - " + ex.Message);
+        }
+    }
+
+}
